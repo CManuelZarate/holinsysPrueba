@@ -2,7 +2,7 @@
 https://github.com/CManuelZarate/holinsysPrueba
 
 # Link de despliegue
-https://cmanuelzarate-companies.netlify.app/list
+https://cmanuelzarate-companies.netlify.app
 
 # HolinsysPrueba
 
