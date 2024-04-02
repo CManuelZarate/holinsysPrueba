@@ -1,3 +1,9 @@
+# Link de repositorio GITHUB
+https://github.com/CManuelZarate/holinsysPrueba
+
+# Link de despliegue
+https://cmanuelzarate-companies.netlify.app/list
+
 # HolinsysPrueba
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
