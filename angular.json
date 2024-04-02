@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "holinsysPrueba"
+  "defaultProject": "holinsysPrueba",
+  "cli": {
+    "analytics": false
+  }
 }
