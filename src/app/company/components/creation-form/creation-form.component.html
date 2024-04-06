@@ -76,7 +76,7 @@
         <div class="">
           <button class="btn btn-primary"
                   type="submit"
-                  [disabled]="myForm.invalid || myForm.disabled">
+                  [disabled]="myForm.invalid || myForm.disabled || myForm.pending">
               {{ currentPath !== "/update"?'Create':'Update'}}
           </button>
         </div>

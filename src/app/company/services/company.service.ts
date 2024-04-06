@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { Company, CompanyRequestDTO, CompanyResponseDTO } from '../interfaces/company.interface';
 
@@ -64,6 +64,29 @@ export class CompanyService {
         return of(errorMessage);
       } )
     );
+  }
+
+
+  checkName(companyName :string ):Observable<boolean>{
+    console.log("entro al check");
+
+    return this.listCompanies().pipe(
+      map(companiesResponse => {
+        for (let i = 0; i < companiesResponse.length; i++) {
+          if (companiesResponse[i].company_name === companyName) {
+            console.log("ingreso true");
+            return true;
+          }
+        }
+        return false;
+      }),
+      catchError(error => {
+        console.error("Error al verificar el nombre de la compañía:", error);
+        return of(false);
+      })
+    );
+    
+
   }
 
 }

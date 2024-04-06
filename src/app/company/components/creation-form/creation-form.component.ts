@@ -4,6 +4,7 @@ import { CompanyService } from '../../services/company.service';
 import { Router } from '@angular/router';
 import { Company, CompanyRequestDTO } from '../../interfaces/company.interface';
 import { ValidatorsService } from '../../services/Validators.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-creation-form',
@@ -17,7 +18,11 @@ export class CreationFormComponent implements OnInit,OnChanges {
   isDisabled: boolean = false;
 
   myForm :FormGroup = this.fb.group( {
-    company_name: [ ,[Validators.required] ],
+    company_name: [ ,{
+      validators:[Validators.required],
+      asyncValidators:[this.getAsyncValidator()],
+      updateOn:'blur'//que se ejecute cuando salga del control 
+    }],
     ruc: [ ,[Validators.required,Validators.pattern(/^\d{10,11}$/)] ],
     contact_number: [,[Validators.required,Validators.pattern(/^\d{7,15}$/)]],
     corporate_mail: [,[Validators.required,Validators.email]],
@@ -48,6 +53,18 @@ export class CreationFormComponent implements OnInit,OnChanges {
       alert("la compañia con ese id no existe");
     }
     this.updateDisabledState();
+  }
+
+  getAsyncValidator() {
+    return () => {
+      if (this.router.url === '/create') {        
+        // Aplica el validador asincrónico si la ruta es '/create'
+        return this.validatorsService;
+      } else {
+        // No aplica el validador asincrónico si la ruta es '/update'
+        return of(null);
+      }
+    };
   }
 
   updateDisabledState() {
