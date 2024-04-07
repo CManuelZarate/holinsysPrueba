@@ -3,20 +3,30 @@ import { AbstractControl, AsyncValidator, FormGroup, ValidationErrors } from '@a
 import { Observable, of } from 'rxjs';
 import { delay, switchMap } from 'rxjs/operators';
 import { CompanyService } from './company.service';
+import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class ValidatorsService implements AsyncValidator {
 
-  constructor(private companyService : CompanyService) { }
+  firstValueControl!:string;
+  firstValueFlag:boolean = true;
+
+  constructor(private companyService : CompanyService,
+    private router:Router
+  ) { }
 
   /*validate(control: AbstractControl): Observable<ValidationErrors | null> */
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
     const companyName= control.value;
     
+    if(this.firstValueFlag){
+      this.firstValueControl = control.value;
+      this.firstValueFlag = false;
+    }
+    
     const httpCallObservable = new Observable<ValidationErrors|null>( (subscriber) => {
-
-      console.log({ companyName });
-      this.companyService.checkName(companyName)
+      
+      this.companyService.checkName(companyName,this.router.url,this.firstValueControl)
       .subscribe( (response) => {
         if (response) {
           subscriber.next({ nameTaken: true });
@@ -26,9 +36,9 @@ export class ValidatorsService implements AsyncValidator {
         subscriber.complete();
       } );
 
-    }).pipe(
+    })/* .pipe(
       delay( 3000 )
-    );
+    ) */;
 
     return httpCallObservable;
   

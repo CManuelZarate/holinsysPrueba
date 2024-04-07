@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CompanyService } from '../../services/company.service';
 import { Router } from '@angular/router';
 import { Company, CompanyRequestDTO } from '../../interfaces/company.interface';
@@ -56,14 +56,8 @@ export class CreationFormComponent implements OnInit,OnChanges {
   }
 
   getAsyncValidator() {
-    return () => {
-      if (this.router.url === '/create') {        
-        // Aplica el validador asincrónico si la ruta es '/create'
-        return this.validatorsService;
-      } else {
-        // No aplica el validador asincrónico si la ruta es '/update'
-        return of(null);
-      }
+    return (control:FormControl) => {
+      return this.validatorsService.validate(control);
     };
   }
 

@@ -67,14 +67,15 @@ export class CompanyService {
   }
 
 
-  checkName(companyName :string ):Observable<boolean>{
-    console.log("entro al check");
+  checkName(companyName :string,route:string,firstValueControl:string ):Observable<boolean>{
 
     return this.listCompanies().pipe(
       map(companiesResponse => {
         for (let i = 0; i < companiesResponse.length; i++) {
-          if (companiesResponse[i].company_name === companyName) {
-            console.log("ingreso true");
+          if (companiesResponse[i].company_name === companyName && route === '/create') {
+            return true;
+          }else if(companiesResponse[i].company_name === companyName && route === '/update' && 
+          companiesResponse[i].company_name !== firstValueControl){
             return true;
           }
         }
